@@ -6,3 +6,4 @@ felix_kernel.elf
 felix_kernel.hex
 Makefile
 .cache
+.cmake/
