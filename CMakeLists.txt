@@ -29,7 +29,9 @@ add_compile_options(
   -mmcu=${MCU}
   -Os
 )
-file(GLOB SRC_FILES "src/*.c")
+
+include_directories(include/)
+file(GLOB SRC_FILES "src/kernel/*.c")
 
 add_executable(${PRODUCT_NAME} ${SRC_FILES})
 set_target_properties(${PRODUCT_NAME} PROPERTIES OUTPUT_NAME ${PRODUCT_NAME}.elf)
