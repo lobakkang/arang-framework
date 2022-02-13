@@ -6,8 +6,8 @@
 #define POLAR_NORMAL 0x00
 #define POLAR_REVERSE 0xFF
 
-unsigned char motor_right_speed = 0;
-unsigned char motor_left_speed = 0;
+extern unsigned char motor_right_speed;
+extern unsigned char motor_left_speed;
 
 void motorInit();
 

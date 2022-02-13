@@ -59,6 +59,34 @@ inline void pin_13_output() {
   DDRB |= 0b00100000;
 }
 
+inline void pin_A0_output() {
+  DDRC |= 0b00000001;
+}
+
+inline void pin_A1_output() {
+  DDRC |= 0b00000010;
+}
+
+inline void pin_A2_output() {
+  DDRC |= 0b00000100;
+}
+
+inline void pin_A3_output() {
+  DDRC |= 0b00001000;
+}
+
+inline void pin_A4_output() {
+  DDRC |= 0b00010000;
+}
+
+inline void pin_A5_output() {
+  DDRC |= 0b00100000;
+}
+
+inline void pin_A6_output() {
+  DDRC |= 0b01000000;
+}
+
 inline void pin_0_input() {
   DDRD &= 0b11111110;
 }
@@ -113,6 +141,34 @@ inline void pin_12_input() {
 
 inline void pin_13_input() {
   DDRB &= 0b11011111;
+}
+
+inline void pin_A0_input() {
+  DDRC &= 0b11111110;
+}
+
+inline void pin_A1_input() {
+  DDRC &= 0b11111101;
+}
+
+inline void pin_A2_input() {
+  DDRC &= 0b11111011;
+}
+
+inline void pin_A3_input() {
+  DDRC &= 0b11110111;
+}
+
+inline void pin_A4_input() {
+  DDRC &= 0b11101111;
+}
+
+inline void pin_A5_input() {
+  DDRC &= 0b11011111;
+}
+
+inline void pin_A6_input() {
+  DDRC &= 0b10111111;
 }
 
 inline void pin_0_on() {
@@ -171,6 +227,34 @@ inline void pin_13_on() {
   PORTB |= 0b00100000;
 }
 
+inline void pin_A0_on() {
+  PORTC |= 0b00000001;
+}
+
+inline void pin_A1_on() {
+  PORTC |= 0b00000010;
+}
+
+inline void pin_A2_on() {
+  PORTC |= 0b00000100;
+}
+
+inline void pin_A3_on() {
+  PORTC |= 0b00001000;
+}
+
+inline void pin_A4_on() {
+  PORTC |= 0b00010000;
+}
+
+inline void pin_A5_on() {
+  PORTC |= 0b00100000;
+}
+
+inline void pin_A6_on() {
+  PORTC |= 0b01000000;
+}
+
 inline void pin_0_off() {
   PORTD &= 0b11111110;
 }
@@ -227,4 +311,31 @@ inline void pin_13_off() {
   PORTB &= 0b11011111;
 }
 
+inline void pin_A0_off() {
+  PORTC &= 0b11111110;
+}
+
+inline void pin_A1_off() {
+  PORTC &= 0b11111101;
+}
+
+inline void pin_A2_off() {
+  PORTC &= 0b11111011;
+}
+
+inline void pin_A3_off() {
+  PORTC &= 0b11110111;
+}
+
+inline void pin_A4_off() {
+  PORTC &= 0b11101111;
+}
+
+inline void pin_A5_off() {
+  PORTC &= 0b11011111;
+}
+
+inline void pin_A6_off() {
+  PORTC &= 0b10111111;
+}
 #endif

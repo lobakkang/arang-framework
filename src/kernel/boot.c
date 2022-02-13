@@ -1,12 +1,21 @@
+#include <avr/builtins.h>
+#include <avr/common.h>
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <kernel/ADC.h>
 #include <kernel/analog_pin.h>
 #include <kernel/digital_pin.h>
 #include <kernel/timer.h>
 #include <kernel/uasrt.h>
 
+#include <kernel/driver/buzzer.h>
+#include <kernel/driver/light_sensor.h>
 #include <kernel/driver/motor.h>
+#include <kernel/driver/rgb_led.h>
 
 #define MS_DELAY 3000
 
@@ -39,11 +48,24 @@ int main(void) {
   sei();
   init_timer();
   init_usart();
+  initADC();
 
   motorInit();
+  rgbLedInit();
+  initLightSensor();
 
-  USART_sendFlashArray(text);
+  rgbLedSetColor(0, 0, 0, 0);
+  rgbLedSetColor(1, 0, 0, 0);
+  rgbLedRender();
 
+  // USART_sendFlashArray(text);
+  // motorLeftSpeed(255);
+
+  char str[10];
   while (1) {
+    sprintf(str, "val:%d\n", readADC(6));
+    USART_sendByteArray(str);
+    delayMillis(1000);
+    // buzzerTone(5000, 100);
   }
 }

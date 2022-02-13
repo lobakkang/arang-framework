@@ -2,6 +2,9 @@
 #include "kernel/digital_pin.h"
 #include <kernel/driver/motor.h>
 
+unsigned char motor_right_speed = 0;
+unsigned char motor_left_speed = 0;
+
 void motorInit() {
   pin_4_output();
   pin_7_output();
