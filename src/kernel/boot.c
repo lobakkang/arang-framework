@@ -9,8 +9,10 @@
 #include <kernel/ADC.h>
 #include <kernel/analog_pin.h>
 #include <kernel/digital_pin.h>
+#include <kernel/terminal.h>
 #include <kernel/timer.h>
 #include <kernel/uasrt.h>
+#include <kernel/utils.h>
 
 #include <kernel/driver/buzzer.h>
 #include <kernel/driver/light_sensor.h>
@@ -39,11 +41,6 @@ void init_usart() {
   UCSR0C |= 0b00000110;
 }
 
-const unsigned char PROGMEM text[] =
-    "Hello how are you? This is a dummy text that have meaning but just to "
-    "waste the memory. :) Aim is to waste the program memory but not the "
-    "expensive ram";
-
 int main(void) {
   sei();
   init_timer();
@@ -58,14 +55,20 @@ int main(void) {
   rgbLedSetColor(1, 0, 0, 0);
   rgbLedRender();
 
-  // USART_sendFlashArray(text);
-  // motorLeftSpeed(255);
+  pin_12_input();
+  if (pin_12_read()) {
+    buzzerTone(4000, 100);
+    delayMillis(100);
+    buzzerTone(4000, 100);
+    terminal();
+    while (1) {
+    }
+  } else {
+    ledFlashOrange(10);
+  }
 
-  char str[10];
+  // USART_sendFlashArray(text);
+
   while (1) {
-    sprintf(str, "val:%d\n", readADC(6));
-    USART_sendByteArray(str);
-    delayMillis(1000);
-    // buzzerTone(5000, 100);
   }
 }

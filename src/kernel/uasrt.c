@@ -18,7 +18,7 @@ void USART_sendByteArray(unsigned char *data) {
   }
 }
 
-void USART_sendFlashArray(const unsigned char *data) {
+void USART_sendFlashArray(const char *data) {
   unsigned char c = pgm_read_byte_near(data);
   int x = 0;
   while (c != 0x00) {
