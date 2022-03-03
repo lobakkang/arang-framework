@@ -1,32 +1,38 @@
+#include "kernel/progmem.h"
+#include <kernel/EEPROM.h>
 #include <kernel/terminal.h>
 #include <kernel/timer.h>
 #include <kernel/uasrt.h>
+#include <stdlib.h>
 #include <string.h>
 
 void terminal() {
-  USART_sendFlashArray(
-      PSTR("Arang Framework v1.0\nTerminal console started\nType `help` to get "
-           "available command\n>"));
   while (1) {
-    while (USART_buf[USART_buf_ptr - 1] != '\r') {
-    }
-    USART_buf[USART_buf_ptr - 1] = 0;
-    if (strcmp("help", (char *)USART_buf) == 0) {
-      USART_sendFlashArray(
-          PSTR("available command:\nstatus - check system status"
-               "\ndefault - set default program\n>"));
-    } else if (strcmp("status", (char *)USART_buf) == 0) {
-      // USART_sendFlashArray(PSTR("\n>"));
-      USART_sendFlashArray(PSTR("Checking EEPROM PROG table...\n"));
-
-    } else {
-      USART_sendFlashArray(PSTR("unknown command\n>"));
-    }
-
-    for (int i = 0; i < 64; i++) {
-      USART_buf[i] = 0;
-    }
-    USART_buf_ptr = 0;
     USART_available = 0;
+    USART_buf_ptr = 0;
+
+    USART_sendByte('X');
+    USART_sendByte(0x00);
+    USART_sendByte(0x00);
+    USART_sendByte(0x00);
+    USART_sendByte(0x69);
+
+    while (USART_available != 5) {
+    }
+
+    switch (USART_buf[0]) {
+    case 'A': {
+      loadEEPROMtable();
+      USART_sendByte('M');
+      USART_sendByte(flash_usage);
+      USART_sendByte(num_program);
+      if (num_program == -1) {
+        USART_sendByte(0x01);
+      } else {
+        USART_sendByte(0x00);
+      }
+      USART_sendByte(0x69);
+    }
+    }
   }
 }

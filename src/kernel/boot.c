@@ -1,3 +1,4 @@
+#include <avr/boot.h>
 #include <avr/builtins.h>
 #include <avr/common.h>
 #include <avr/io.h>
@@ -9,6 +10,8 @@
 #include <kernel/ADC.h>
 #include <kernel/analog_pin.h>
 #include <kernel/digital_pin.h>
+#include <kernel/optiboot.h>
+#include <kernel/progmem.h>
 #include <kernel/terminal.h>
 #include <kernel/timer.h>
 #include <kernel/uasrt.h>
@@ -50,21 +53,48 @@ int main(void) {
   motorInit();
   rgbLedInit();
   initLightSensor();
+  initPayload();
 
   rgbLedSetColor(0, 0, 0, 0);
   rgbLedSetColor(1, 0, 0, 0);
   rgbLedRender();
 
-  pin_12_input();
-  if (pin_12_read()) {
-    buzzerTone(4000, 100);
-    delayMillis(100);
-    buzzerTone(4000, 100);
-    terminal();
-    while (1) {
+  USART_buf_ptr = 0;
+  USART_available = 0;
+
+  // USART_sendByte('P');
+  // USART_sendByte(0x00);
+  // USART_sendByte(0x00);
+  // USART_sendByte(0x00);
+  // USART_sendByte(0x69);
+  delayMillis(50);
+  if (USART_available == 5) {
+    if (USART_receiveByte() == 0x69) {
+      buzzerTone(4000, 50);
+      delayMillis(50);
+      buzzerTone(4000, 50);
+      terminal();
+      while (1) {
+      }
     }
   } else {
-    ledFlashOrange(10);
+    // clearEEPROMtable();
+    // while (1) {
+    // }
+
+    char tmp_str[64];
+    sprintf(
+        tmp_str, "%d %p %d 0x%X 0x%X 0x%X\n", pgm_read_byte(payload_int_data),
+        payload_int_data, (int)payload_page_addr, pgm_read_byte(GET_LOCK_BITS),
+        pgm_read_byte(GET_LOW_FUSE_BITS), pgm_read_byte(GET_HIGH_FUSE_BITS));
+    USART_sendByteArray((unsigned char *)tmp_str);
+
+    unsigned char lateral[128] = {
+        0x87, 0x87, 0x87, 0x87, 0x87, 0x87, 0x87, 0x87,
+        0x87, 0x87, 0x87, 0x87, 0x87, 0x87, 0x87,
+    };
+    optiboot_writePage(payload_int_data, lateral, 1);
+    USART_sendByteArray((unsigned char *)"done\n");
   }
 
   // USART_sendFlashArray(text);
