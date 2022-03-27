@@ -3,6 +3,8 @@ project("felix kernel")
 
 set(PRODUCT_NAME felix_kernel)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(F_CPU 16000000UL)
 set(MCU atmega328p)
 set(BAUD 19200)
@@ -34,6 +36,7 @@ add_compile_options(
 
 add_link_options(-T ${LINKER_SCRIPT})
 # add_link_options(-Wl,--verbose)
+
 
 include_directories(include/)
 file(GLOB_RECURSE SRC_FILES "src/kernel/*.c")

@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include <kernel/EEPROM.h>
 
-void eepromWrite(char data, short addr) {
+void eepromWrite(unsigned char data, short addr) {
   while (EECR & 0b00000010) {
   }
   EEAR = addr;
@@ -34,14 +34,14 @@ unsigned long eepromCRC(short addr, short length) {
   return crc;
 }
 
-void eepromReadArray(char *dest, short addr, short length) {
-  for (int index = 0; index < length; index++) {
+void eepromReadArray(unsigned char *dest, short addr, short length) {
+  for (short index = 0; index < length; index++) {
     dest[index] = eepromRead(addr + index);
   }
 }
 
-void eepromWriteArray(char *src, short addr, short length) {
-  for (int index = 0; index < length; index++) {
+void eepromWriteArray(unsigned char *src, short addr, short length) {
+  for (short index = 0; index < length; index++) {
     eepromWrite(src[index], addr + index);
   }
 }
